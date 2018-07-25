@@ -317,11 +317,17 @@ function onconnect (req, socket, head) {
 
   function ontargeterror (err) {
     debug.proxyResponse('proxy target %s "error" event:\n%s', req.url, err.stack || err);
-    cleanup();
+    
     if (gotResponse) {
       debug.response('already sent a response, just destroying the socket...');
       socket.destroy();
-    } else if ('ENOTFOUND' == err.code) {
+    }
+    if ('EPIPE' == err.code){
+      debug.response('HTTP/1.1 503 Internal Server Error');
+        res.writeHead(503);
+        res.end();
+    }
+    else if ('ENOTFOUND' == err.code) {
       debug.response('HTTP/1.1 404 Not Found');
       res.writeHead(404);
       res.end();
@@ -330,6 +336,7 @@ function onconnect (req, socket, head) {
       res.writeHead(500);
       res.end();
     }
+    cleanup();
   }
 
   function ontargetconnect () {
@@ -372,7 +379,7 @@ function onconnect (req, socket, head) {
   // doesn't provide us with one :(
   // XXX: this is undocumented API, so it will break some day (ノಠ益ಠ)ノ彡┻━┻
   res = new http.ServerResponse(req);
-  res.shouldKeepAlive = false;
+  res.shouldKeepAlive = true;
   res.chunkedEncoding = false;
   res.useChunkedEncodingByDefault = false;
   res.assignSocket(socket);
