@@ -1,4 +1,4 @@
-proxy
+proxy server + Simple Chrome Proxy Extension
 =====
 ### An HTTP proxy written with Node.js (think Squid)
 [![Build Status](https://travis-ci.org/TooTallNate/proxy.svg?branch=master)](https://travis-ci.org/TooTallNate/proxy)
