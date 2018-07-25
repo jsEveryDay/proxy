@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "MyProxy"
+    },
+    "appDesc": {
+        "message": "Set proxy for Chrome"
+    },
+    "title": {
+        "message": "HTTP Proxy"
+    },
+    "proxy_helper_options" : {
+        "message": "Options"
+    }
+}
